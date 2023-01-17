@@ -2,6 +2,10 @@
   "name": "dwh",
   "version": "0.0.0",
   "type": "module",
+  "main":"dist/dwh.es.js",
+  "unpkg":"dist/dwh.es.js",
+  "jsdelivr":"dist/dwh.es.js",
+  "module":"src/main.ts",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -16,5 +20,10 @@
   "dependencies": {
     "commander": "^10.0.0",
     "underscore": "^1.13.6"
-  }
+  },
+  "files":[
+    "dist/dwh.es.js",
+    "dist/dwh.umd.js",
+    "src"
+  ]
 }
