@@ -1,13 +1,13 @@
 import * as _ from 'underscore'
 
-function ensureKey(n, key, value) {
+function ensureKey(n:any, key:string, value:any) {
   if (! (key in n)) n[key] = value; 
   return n;
 }
 
-function annotateNetwork(network) {
+function annotateNetwork(network:any) {
 
-  const date_to_year = (n) => {
+  const date_to_year = (n:any) => {
       if (n.patient_attributes.Year == "N/A" || !n.patient_attributes.Year ) {
          return null; 
       }
@@ -101,7 +101,7 @@ export function computeFractions(network:any, bin:any, randomize:boolean) {
 
   network = annotateNetwork(network);
   
-  let nodeLabels = [];
+  let nodeLabels: any[] = [];
   
   _.each (network["Nodes"], (n)=>{
       nodeLabels.push (bin(n));
@@ -111,7 +111,7 @@ export function computeFractions(network:any, bin:any, randomize:boolean) {
     nodeLabels = _.shuffle (nodeLabels); 
   }
   
-  let pairwiseConnections = {};
+  let pairwiseConnections:any = {};
 
   _.each (network["Edges"], (e) => {
       
@@ -132,7 +132,7 @@ export function computeFractions(network:any, bin:any, randomize:boolean) {
 
   });
     
-  let unrolled = [];
+  let unrolled:any[] = [];
   _.each (pairwiseConnections, (v, k) => {
       _.each (v, (v2, k2) => {
           unrolled.push ({'from' : k, 'to' : k2, 'count' : v2});
