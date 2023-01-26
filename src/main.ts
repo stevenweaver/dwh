@@ -1,6 +1,38 @@
 import * as _ from 'underscore'
 
+function ensureKey(n, key, value) {
+  if (! (key in n)) n[key] = value; 
+  return n;
+}
+
+function annotateNetwork(network) {
+
+  const date_to_year = (n) => {
+      if (n.patient_attributes.Year == "N/A" || !n.patient_attributes.Year ) {
+         return null; 
+      }
+      return parseInt (n.patient_attributes.Year.substr(0,4));
+  };
+  var annotatedNetwork = network;
+
+  _.each (annotatedNetwork["Nodes"], (n) => {
+      n.year = date_to_year(n);
+      n.degree = 0;
+  });
+  
+  _.each (annotatedNetwork["Edges"], (e) => {
+        _.each ([e.source,e.target], (n) => {
+            annotatedNetwork["Nodes"][n].degree ++;
+        });
+    });
+  
+  return annotatedNetwork;
+
+}
+
 export default function computeDWH (network:any, binBy:any, value:any, randomize:boolean) {
+
+  network = annotateNetwork(network);
 
   let nodeLabels: any[] = [];
 
@@ -64,4 +96,50 @@ export default function computeDWH (network:any, binBy:any, value:any, randomize
   return (WM + WC - 2 * WX) / (dIn / nodesIn / nodesIn + dOut / nodesOut / nodesOut);
 
 };
+
+export function computeFractions(network:any, bin:any, randomize:boolean) {
+
+  network = annotateNetwork(network);
+  
+  let nodeLabels = [];
+  
+  _.each (network["Nodes"], (n)=>{
+      nodeLabels.push (bin(n));
+  });
+
+  if (randomize) {
+    nodeLabels = _.shuffle (nodeLabels); 
+  }
+  
+  let pairwiseConnections = {};
+
+  _.each (network["Edges"], (e) => {
+      
+      let sourceType = nodeLabels[e.source];
+      let targetType = nodeLabels[e.target];
+
+
+      let sourceDegree = network["Nodes"][e.source].degree;
+      let targetDegree = network["Nodes"][e.target].degree;
+
+      ensureKey(pairwiseConnections, sourceType, {});
+      ensureKey(pairwiseConnections, targetType, {});
+      ensureKey(pairwiseConnections[sourceType], targetType, 0);
+      ensureKey(pairwiseConnections[targetType], sourceType, 0);
+
+      pairwiseConnections[sourceType][targetType] += 1/targetDegree/sourceDegree;
+      pairwiseConnections[targetType][sourceType] += 1/sourceDegree/targetDegree;
+
+  });
+    
+  let unrolled = [];
+  _.each (pairwiseConnections, (v, k) => {
+      _.each (v, (v2, k2) => {
+          unrolled.push ({'from' : k, 'to' : k2, 'count' : v2});
+      });
+  });
+
+  return unrolled;
+
+}
 

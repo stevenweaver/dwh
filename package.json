@@ -1,11 +1,11 @@
 {
   "name": "dwh",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "type": "module",
-  "main":"dist/dwh.es.js",
-  "unpkg":"dist/dwh.es.js",
-  "jsdelivr":"dist/dwh.es.js",
-  "module":"src/main.ts",
+  "main": "dist/dwh.es.js",
+  "unpkg": "dist/dwh.es.js",
+  "jsdelivr": "dist/dwh.es.js",
+  "module": "src/main.ts",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -19,9 +19,10 @@
   },
   "dependencies": {
     "commander": "^10.0.0",
+    "ramda": "^0.28.0",
     "underscore": "^1.13.6"
   },
-  "files":[
+  "files": [
     "dist/dwh.es.js",
     "dist/dwh.umd.js",
     "src"
