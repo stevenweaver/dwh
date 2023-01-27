@@ -14,16 +14,16 @@ nodes with similar attributes to the expected number of connections between
 such nodes, based on their degree.
 
 In mathematical terms, it is defined as:
-$DWH = (W_M + W_C - 2*W_X) / (d_in/nodes_in/nodes_in + d_out/nodes_out/nodes_out )$
+$DWH = (W_M + W_C - 2*W_X) / (d_{in}/nodes_{in}/nodes_{in} + d_{out}/nodes_{out}/nodes_{out} )$
 
 Where:
 * $W_M$ : Weight of in-group connections
 * $W_C$ : Weight of out-group connections
 * $W_X$ : Weight of cross-group connections
-* $d_in$ : In-group degree
-* $d_out$ : Out-group degree
-* $nodes_in$ : number of in-group nodes
-* $nodes_out$ : number of out-group nodes
+* $d_{in}$ : In-group degree
+* $d_{out}$ : Out-group degree
+* $nodes_{in}$ : number of in-group nodes
+* $nodes_{out}$ : number of out-group nodes
 
 A DWH value of 0 indicates that there is no homophily, while a value of 1
 indicates that there is perfect homophily.
