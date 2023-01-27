@@ -25,8 +25,8 @@ Where:
 * $nodes_{in}$ : number of in-group nodes
 * $nodes_{out}$ : number of out-group nodes
 
-A DWH value of 0 indicates that there is no homophily, while a value of 1
-indicates that there is perfect homophily.
+DWH ranges from -1 to 1. A DWH value of 0 indicates that there is no more homophily than expected with chance, while a value of 1
+indicates that there is perfect homophily (e.g. Birds always link to birds). A value of -1 is achieved for perfectly disassortative networks (e.g. Bird never linking with another bird). 
 
 DWH is used in social network analysis and in the study of how different
 attributes are related to the formation of connections between individuals. It
