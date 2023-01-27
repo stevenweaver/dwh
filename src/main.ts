@@ -30,6 +30,14 @@ function annotateNetwork(network:any) {
 
 }
 
+/**
+ * Computes the degree-weighted homophily (DWH) of a network
+ * @param {Object} network - A network JSON that is the result from the [HIV-TRACE](https://github.com/veg/hivtrace) package. Additionally, the results from hivtrace must be annotated using `hivnetworkannotate` from the [hivclustering](https://github.com/veg/hivclustering) package.
+ * @param {Function} binBy - A function that is used to bin the nodes in the network into different groups based on a specific attribute. An example function can be found in bin/dws.js.
+ * @param {any} value - The value used to filter the nodes in the network
+ * @param {Boolean} randomize - Determines whether the nodes in the network will be shuffled randomly before the computation of DWH
+ * @returns {Number} The DWH of the network
+ */
 export default function computeDWH (network:any, binBy:any, value:any, randomize:boolean) {
 
   network = annotateNetwork(network);
@@ -97,6 +105,14 @@ export default function computeDWH (network:any, binBy:any, value:any, randomize
 
 };
 
+/**
+ * Computes fractions of pairwise connections between different node types in a network.
+ * @function
+ * @param {Object} network - A network JSON that is the result from the [HIV-TRACE](https://github.com/veg/hivtrace) package. Additionally, the results from hivtrace must be annotated using `hivnetworkannotate` from the [hivclustering](https://github.com/veg/hivclustering) package.
+ * @param {function} bin - A function that is used to bin the nodes in the network into different groups based on a specific attribute. An example function can be found in bin/dws.js.
+ * @param {boolean} randomize - Determines whether the node labels should be randomized before computing pairwise connections.
+ * @return {Array} unrolled - An array of objects representing the pairwise connections between different node types, with properties 'from', 'to', and 'count'.
+ */
 export function computeFractions(network:any, bin:any, randomize:boolean) {
 
   network = annotateNetwork(network);
