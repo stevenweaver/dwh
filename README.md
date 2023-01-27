@@ -35,7 +35,7 @@ a network.
 
 ## Usage
 
-`compute_dwh` takes four arguments:
+`computeDWH` takes four arguments:
 
 * `network`: A network JSON that is the result from the [HIV-TRACE](https://github.com/veg/hivtrace) package. Additionally, the results from hivtrace must be annotated using `hivnetworkannotate` from the [hivclustering](https://github.com/veg/hivclustering) package.
 * `binBy`: A function that is used to bin the nodes in the network into different groups based on a specific attribute. An example function can be found in bin/dws.js.
