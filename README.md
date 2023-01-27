@@ -33,6 +33,8 @@ attributes are related to the formation of connections between individuals. It
 is used as a way to measure the similarity of attributes between individuals in
 a network.
 
+Please see [Benjamin Golub, Matthew O. Jackson, How Homophily Affects the Speed of Learning and Best-Response Dynamics, The Quarterly Journal of Economics, Volume 127, Issue 3, August 2012, Pages 1287–1338](https://academic.oup.com/qje/article-abstract/127/3/1287/1923572) for more information
+
 ## Usage
 
 `computeDWH` takes four arguments:
