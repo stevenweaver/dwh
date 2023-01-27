@@ -35,11 +35,11 @@ a network.
 
 ## Usage
 
-"compute_dwh" takes four arguments:
+`compute_dwh` takes four arguments:
 
 * `network`: A network JSON that is the result from the [HIV-TRACE](https://github.com/veg/hivtrace) package. Additionally, the results from hivtrace must be annotated using `hivnetworkannotate` from the [hivclustering](https://github.com/veg/hivclustering) package.
-* `binby`: A function that is used to bin the nodes in the network into different groups based on a specific attribute. An example function can be found in bin/dws.js.
-* `value`: This argument is the value that is used to filter the nodes in the network. The function "binby" is applied to each node in the network, and the nodes are filtered based on whether the result of this function is equal to the value provided. For example, if one wants to know the DWH of attribute "Bird", this argument would be "Bird"
+* `binBy`: A function that is used to bin the nodes in the network into different groups based on a specific attribute. An example function can be found in bin/dws.js.
+* `value`: This argument is the value that is used to filter the nodes in the network. The function `binBy` is applied to each node in the network, and the nodes are filtered based on whether the result of this function is equal to the value provided. For example, if one wants to know the DWH of attribute "Bird", this argument would be "Bird"
 * `randomize`: This argument is a Boolean value that determines whether the nodes in the network will be shuffled randomly before the computation of DWH. If the value is true, the nodes will be shuffled, and if the value is false, the nodes will not be shuffled. This is to determine the null distribution.
 
 
