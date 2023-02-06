@@ -13,10 +13,11 @@ function annotateNetwork(network:any) {
       }
       return parseInt (n.patient_attributes.Year.substr(0,4));
   };
+
   var annotatedNetwork = network;
 
   _.each (annotatedNetwork["Nodes"], (n) => {
-      n.year = date_to_year(n);
+      //n.year = date_to_year(n);
       n.degree = 0;
   });
   
@@ -30,6 +31,44 @@ function annotateNetwork(network:any) {
 
 }
 
+// Need to support compact JSON from hivclustering
+
+function decompress(json) {
+
+	_.each(["Nodes", "Edges"], (key) => {
+
+		let fields = _.keys(json[key]);
+		let expanded = [];
+
+		_.each(fields, (f, idx) => {
+
+			let field_values = json[key][f];
+			if (!_.isArray(field_values) && "values" in field_values) {
+				//console.log ('COMPRESSED');
+				let expanded_values = [];
+				_.each(field_values["values"], (v) => {
+					expanded_values.push(field_values["keys"][v]);
+				});
+				field_values = expanded_values;
+			}
+			_.each(field_values, (fv, j) => {
+				if (idx == 0) {
+					expanded.push({});
+				}
+				expanded[j][f] = fv;
+			});
+
+		});
+
+		json[key] = expanded;
+
+	});
+
+  json.Settings.compact_json = false;
+	return json;
+
+}
+
 /**
  * Computes the degree-weighted homophily (DWH) of a network
  * @param {Object} network - A network JSON that is the result from the [HIV-TRACE](https://github.com/veg/hivtrace) package. Additionally, the results from hivtrace must be annotated using `hivnetworkannotate` from the [hivclustering](https://github.com/veg/hivclustering) package.
@@ -39,6 +78,15 @@ function annotateNetwork(network:any) {
  * @returns {Number} The DWH of the network
  */
 export default function computeDWH (network:any, binBy:any, value:any, randomize:boolean) {
+
+  if(network["trace_results"]) {
+    network = network["trace_results"];
+
+		if (network.Settings && network.Settings.compact_json) {
+			network = decompress(network);
+		}
+
+  }
 
   network = annotateNetwork(network);
 
@@ -115,8 +163,18 @@ export default function computeDWH (network:any, binBy:any, value:any, randomize
  */
 export function computeFractions(network:any, bin:any, randomize:boolean) {
 
+  if(network["trace_results"]) {
+
+    network = network["trace_results"];
+
+		if (network.Settings && network.Settings.compact_json) {
+			network = decompress(network);
+		}
+
+  }
+
   network = annotateNetwork(network);
-  
+
   let nodeLabels: any[] = [];
   
   _.each (network["Nodes"], (n)=>{
@@ -158,4 +216,3 @@ export function computeFractions(network:any, bin:any, randomize:boolean) {
   return unrolled;
 
 }
-

@@ -12,7 +12,13 @@ var network;
 // binBy is a function that we will have to make static for the command line application 
 let nodeCategoryRaw = (field, n) => {
 
-  var desc = n['patient_attributes'][field];
+  let desc = null;
+
+  try {
+    desc = n['patient_attributes'][field];
+  } catch {
+    console.log(`No patient attributes for ${n.id}`)
+  }
 
   if (desc == "MSM") {
     return desc; 
@@ -57,11 +63,11 @@ const options = program.opts();
 
 const nodeCategory = R.partial(nodeCategoryRaw, [options.field]);
 
-const linkInfo = computeFractions (network, nodeCategory, false);
 
 console.log("DWH")
 console.log(dwh(network, nodeCategory, options.record, options.randomize));
 
 console.log("Computed Fractions")
+const linkInfo = computeFractions(network, nodeCategory, false);
 console.log(linkInfo);
 
