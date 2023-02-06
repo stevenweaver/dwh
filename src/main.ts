@@ -32,44 +32,6 @@ function annotateNetwork(network:any) {
 
 }
 
-// Need to support compact JSON from hivclustering
-
-export function decompress(json:any) {
-
-	_.each(["Nodes", "Edges"], (key) => {
-
-		let fields = _.keys(json[key]);
-		let expanded:any[] = [];
-
-		_.each(fields, (f, idx) => {
-
-			let field_values = json[key][f];
-			if (!_.isArray(field_values) && "values" in field_values) {
-				//console.log ('COMPRESSED');
-				let expanded_values:any[] = [];
-				_.each(field_values["values"], (v) => {
-					expanded_values.push(field_values["keys"][v]);
-				});
-				field_values = expanded_values;
-			}
-			_.each(field_values, (fv, j) => {
-				if (idx == 0) {
-					expanded.push({});
-				}
-				expanded[j][f] = fv;
-			});
-
-		});
-
-		json[key] = expanded;
-
-	});
-
-  json.Settings.compact_json = false;
-	return json;
-
-}
-
 /**
  * Computes the degree-weighted homophily (DWH) of a network
  * @param {Object} network - A network JSON that is the result from the [HIV-TRACE](https://github.com/veg/hivtrace) package. Additionally, the results from hivtrace must be annotated using `hivnetworkannotate` from the [hivclustering](https://github.com/veg/hivclustering) package.
@@ -217,3 +179,47 @@ export function computeFractions(network:any, bin:any, randomize:boolean) {
   return unrolled;
 
 }
+
+/**
+ * Decompresses compact HIV-TRACE results JSON
+ * @function
+ * @param {Object} network - A network JSON that is the result from the [HIV-TRACE](https://github.com/veg/hivtrace) package. Additionally, the results from hivtrace must be annotated using `hivnetworkannotate` from the [hivclustering](https://github.com/veg/hivclustering) package.
+ * @return {Object} json - Decompressed JSON
+ */
+export function decompress(json:any) {
+
+	_.each(["Nodes", "Edges"], (key) => {
+
+		let fields = _.keys(json[key]);
+		let expanded:any[] = [];
+
+		_.each(fields, (f, idx) => {
+
+			let field_values = json[key][f];
+			if (!_.isArray(field_values) && "values" in field_values) {
+				//console.log ('COMPRESSED');
+				let expanded_values:any[] = [];
+				_.each(field_values["values"], (v) => {
+					expanded_values.push(field_values["keys"][v]);
+				});
+				field_values = expanded_values;
+			}
+			_.each(field_values, (fv, j) => {
+				if (idx == 0) {
+					expanded.push({});
+				}
+				expanded[j][f] = fv;
+			});
+
+		});
+
+		json[key] = expanded;
+
+	});
+
+  json.Settings.compact_json = false;
+	return json;
+
+}
+
+
