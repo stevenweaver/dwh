@@ -7,12 +7,13 @@ function ensureKey(n:any, key:string, value:any) {
 
 function annotateNetwork(network:any) {
 
-  const date_to_year = (n:any) => {
-      if (n.patient_attributes.Year == "N/A" || !n.patient_attributes.Year ) {
-         return null; 
-      }
-      return parseInt (n.patient_attributes.Year.substr(0,4));
-  };
+  // const date_to_year = (n:any) => {
+  //     if (n.patient_attributes.Year == "N/A" || !n.patient_attributes.Year ) {
+  //        return null; 
+  //     }
+
+  //     return parseInt (n.patient_attributes.Year.substr(0,4));
+  // };
 
   var annotatedNetwork = network;
 
@@ -33,19 +34,19 @@ function annotateNetwork(network:any) {
 
 // Need to support compact JSON from hivclustering
 
-function decompress(json) {
+function decompress(json:any) {
 
 	_.each(["Nodes", "Edges"], (key) => {
 
 		let fields = _.keys(json[key]);
-		let expanded = [];
+		let expanded:any[] = [];
 
 		_.each(fields, (f, idx) => {
 
 			let field_values = json[key][f];
 			if (!_.isArray(field_values) && "values" in field_values) {
 				//console.log ('COMPRESSED');
-				let expanded_values = [];
+				let expanded_values:any[] = [];
 				_.each(field_values["values"], (v) => {
 					expanded_values.push(field_values["keys"][v]);
 				});
