@@ -1,6 +1,6 @@
 {
   "name": "dwh",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "type": "module",
   "main": "dist/dwh.es.js",
   "unpkg": "dist/dwh.es.js",

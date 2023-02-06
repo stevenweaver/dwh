@@ -34,7 +34,7 @@ function annotateNetwork(network:any) {
 
 // Need to support compact JSON from hivclustering
 
-function decompress(json:any) {
+export function decompress(json:any) {
 
 	_.each(["Nodes", "Edges"], (key) => {
 
