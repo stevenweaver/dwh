@@ -1,4 +1,5 @@
 import * as _ from 'underscore'
+import * as R from "ramda";
 
 function ensureKey(n:any, key:string, value:any) {
   if (! (key in n)) n[key] = value; 
@@ -56,8 +57,17 @@ export default function computeDWH (network:any, binBy:any, value:any, randomize
   let nodeLabels: any[] = [];
 
   _.each(network.Nodes, (n) => {
-    nodeLabels.push(binBy(n) === value ? true : false);
+
+		let binByVal = binBy(n);
+
+		// check if binBy is a string or an array, if it is an array, then any can match
+		if(R.is(Array, binByVal)) {
+    	nodeLabels.push(R.includes(value, binByVal));
+		} else {
+    	nodeLabels.push(binByVal === value ? true : false);
+		}
     n.degree = 0;
+
   });
 
   if (randomize) {
